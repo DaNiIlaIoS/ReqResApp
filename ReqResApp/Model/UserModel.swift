@@ -9,11 +9,12 @@ import Foundation
 
 struct UserModel: Codable {
     let id: Int
+    let email: String
     let firstName: String
     let lastName: String
     let avatar: URL
     
-    static let example = UserModel(id: 2, firstName: "John", lastName: "Carter", avatar: URL(string: "https://reqres.in/img/faces/2-image.jpg")!)
+    static let example = UserModel(id: 2, email: "sivozelezovdaniil@gmail.com", firstName: "John", lastName: "Carter", avatar: URL(string: "https://reqres.in/img/faces/2-image.jpg")!)
 }
 
 struct UsersQuery: Codable {
