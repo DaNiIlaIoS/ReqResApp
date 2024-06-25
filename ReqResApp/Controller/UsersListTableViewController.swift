@@ -53,8 +53,8 @@ extension UsersListTableViewController {
         let user = users[indexPath.row]
         
         var content = cell.defaultContentConfiguration()
-        content.text = user.firstName
-        content.secondaryText = user.lastName
+        content.text = "\(user.firstName) \(user.lastName)"
+        content.secondaryText = user.email
         content.image = UIImage(systemName: "face.smiling")
         
         cell.contentConfiguration = content
@@ -65,12 +65,19 @@ extension UsersListTableViewController {
             
             cell.contentConfiguration = content
         }
-        
+
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
 extension UsersListTableViewController {
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
+        
+        let userViewController = UserViewController()
+        userViewController.configure(with: user)
+            
+        navigationController?.pushViewController(userViewController, animated: true)
+    }
 }

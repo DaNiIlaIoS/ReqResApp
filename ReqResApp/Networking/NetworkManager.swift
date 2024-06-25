@@ -12,7 +12,7 @@ final class NetworkManager {
     private init() {}
     
     func fetchAvatar(from url: URL, completion: @escaping (Data) -> ()) {
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .background).async {
             guard let imageData = try? Data(contentsOf: url) else { return }
             
             DispatchQueue.main.async {
@@ -30,7 +30,7 @@ final class NetworkManager {
             
             guard let data = data else {
                 print(error?.localizedDescription ?? "No error description")
-                completion(.failure(.noData))
+                sendFailure(with: .noData)
                 return
             }
             let decode = JSONDecoder()
@@ -43,7 +43,12 @@ final class NetworkManager {
                 
             } catch let error {
                 print(error.localizedDescription)
-                completion(.failure(.decodingError))
+                sendFailure(with: .decodingError)
+            }
+            func sendFailure(with error: NetworkError) {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         }
         session.resume()
