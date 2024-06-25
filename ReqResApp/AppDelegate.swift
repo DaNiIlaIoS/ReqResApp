@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
             let navigationController = UINavigationController()
-            navigationController.viewControllers = [ViewController()]
+            navigationController.viewControllers = [UsersListTableViewController()]
             window.rootViewController = navigationController
             window.makeKeyAndVisible()
         }
