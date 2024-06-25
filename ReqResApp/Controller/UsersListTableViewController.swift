@@ -27,8 +27,17 @@ class UsersListTableViewController: UITableViewController {
 // MARK: Networking
 extension UsersListTableViewController {
     private func fetchUsers() {
-        users = [UserModel.example]
-        tableView.reloadData()
+//        users = [UserModel.example]
+        networkManager.fetchUsers { [weak self] result in
+            switch result {
+            case .success(let users):
+                self?.users = users
+                self?.tableView.reloadData()
+            case .failure(let error):
+                print("Error in fetchUsers: \(error.localizedDescription)")
+            }
+        }
+        
     }
 }
 
