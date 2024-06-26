@@ -31,7 +31,6 @@ final class UserViewController: UIViewController {
     }()
     
     // MARK: - Properties
-    private let networkManager = NetworkManager.shared
     private var user: UserModel?
     
     // MARK: - Life Cycle
@@ -52,11 +51,7 @@ final class UserViewController: UIViewController {
         nameLabel.text = "\(user.firstName) \(user.lastName)"
         emailLabel.text = user.email
         
-        networkManager.fetchAvatar(from: user.avatar) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.imageView.image = UIImage(data: image)
-            }
-        }
+        imageView.kf.setImage(with: user.avatar)
     }
     
     private func setupConstraints() {
