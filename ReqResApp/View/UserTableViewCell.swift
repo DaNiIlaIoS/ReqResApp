@@ -12,7 +12,9 @@ import Kingfisher
 final class UserTableViewCell: UITableViewCell {
     // MARK: - GUI Variables
     private lazy var avatarImage: UIImageView = {
-       let view = UIImageView()
+        let view = UIImageView()
+        view.layer.cornerRadius = 36
+        view.clipsToBounds = true
         return view
     }()
     
