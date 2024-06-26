@@ -6,21 +6,55 @@
 //
 
 import UIKit
+import SnapKit
 
 class UsersListTableViewController: UITableViewController {
 
+    // MARK: - GUI Variables
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.startAnimating()
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
+    // MARK: - Properties
     private let networkManager = NetworkManager.shared
     private var users = [UserModel]()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Title"
-        view.backgroundColor = .white
+        
         
         tableView.rowHeight = 80
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserTableViewCell")
         
+        setupUI()
         fetchUsers()
+    }
+    
+    // MARK: - Methods
+    private func showAlert(with error: NetworkError) {
+        let alert = UIAlertController(title: error.title, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    private func setupUI() {
+        title = "Title"
+        view.backgroundColor = .white
+        
+        view.addSubview(activityIndicator)
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
@@ -29,15 +63,16 @@ extension UsersListTableViewController {
     private func fetchUsers() {
 //        users = [UserModel.example]
         networkManager.fetchUsers { [weak self] result in
+            self?.activityIndicator.stopAnimating()
             switch result {
             case .success(let users):
                 self?.users = users
                 self?.tableView.reloadData()
             case .failure(let error):
-                print("Error in fetchUsers: \(error.localizedDescription)")
+                print("Error in fetchUsers: \(error)")
+                self?.showAlert(with: error)
             }
         }
-        
     }
 }
 
