@@ -47,6 +47,8 @@ class UsersListTableViewController: UITableViewController {
         title = "Title"
         view.backgroundColor = .white
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction))
+        
         view.addSubview(activityIndicator)
         setupConstraints()
     }
@@ -55,6 +57,13 @@ class UsersListTableViewController: UITableViewController {
         activityIndicator.snp.makeConstraints { make in
             make.center.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    
+    @objc private func addButtonAction() {
+        let addViewController = NewUserViewController()
+        let navigationController = UINavigationController(rootViewController: addViewController)
+        
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
