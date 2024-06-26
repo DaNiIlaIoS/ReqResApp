@@ -50,21 +50,22 @@ extension UsersListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
         
-        let user = users[indexPath.row]
-        
-        var content = cell.defaultContentConfiguration()
-        content.text = "\(user.firstName) \(user.lastName)"
-        content.secondaryText = user.email
-        content.image = UIImage(systemName: "face.smiling")
-        
-        cell.contentConfiguration = content
-        
-        networkManager.fetchAvatar(from: user.avatar) { imageData in
-            content.image = UIImage(data: imageData)
-            content.imageProperties.cornerRadius = tableView.rowHeight / 2
-            
-            cell.contentConfiguration = content
-        }
+        cell.configure(with: users[indexPath.row])
+//        let user = users[indexPath.row]
+//        
+//        var content = cell.defaultContentConfiguration()
+//        content.text = "\(user.firstName) \(user.lastName)"
+//        content.secondaryText = user.email
+//        content.image = UIImage(systemName: "face.smiling")
+//        
+//        cell.contentConfiguration = content
+//        
+//        networkManager.fetchAvatar(from: user.avatar) { imageData in
+//            content.image = UIImage(data: imageData)
+//            content.imageProperties.cornerRadius = tableView.rowHeight / 2
+//            
+//            cell.contentConfiguration = content
+//        }
 
         return cell
     }
