@@ -8,8 +8,12 @@
 import UIKit
 import SnapKit
 
-class UsersListTableViewController: UITableViewController {
+protocol NewUserViewControllerDelegate {
+    func createUser(user: UserModel)
+}
 
+class UsersListTableViewController: UITableViewController {
+    
     // MARK: - GUI Variables
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -124,5 +128,14 @@ extension UsersListTableViewController {
         userViewController.configure(with: user)
             
         navigationController?.pushViewController(userViewController, animated: true)
+    }
+}
+
+// MARK: - NewUserViewControllerDelegate
+extension UsersListTableViewController: NewUserViewControllerDelegate {
+    func createUser(user: UserModel) {
+        print(user)
+        users.append(user)
+        tableView.reloadData()
     }
 }
