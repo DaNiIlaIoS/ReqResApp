@@ -74,7 +74,7 @@ class UsersListTableViewController: UITableViewController {
 // MARK: Networking
 extension UsersListTableViewController {
     private func fetchUsers() {
-//        users = [UserModel.example]
+        //        users = [UserModel.example]
         networkManager.fetchUsers { [weak self] result in
             self?.activityIndicator.stopAnimating()
             switch result {
@@ -84,6 +84,46 @@ extension UsersListTableViewController {
             case .failure(let error):
                 print("Error in fetchUsers: \(error)")
                 self?.showAlert(with: error)
+            }
+        }
+    }
+    
+    private func post(user: UserModel) {
+        networkManager.postUser(user) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let postUserQuery):
+                    print("\(postUserQuery) created")
+                    self?.users.append(UserModel(postUserQuery: postUserQuery))
+                    self?.tableView.reloadData()
+                case .failure(let error):
+                    print("Error in post user: \(error)")
+                }
+            }
+        }
+        //        Task {
+        //            let result = try await networkManager.postUser(user)
+        //            DispatchQueue.main.async {
+        //                switch result {
+        //                case .success(let postUserQuery):
+        //                    print("\(postUserQuery) created")
+        //                    self.users.append(UserModel(postUserQuery: postUserQuery))
+        //                    self.tableView.reloadData()
+        //                case .failure(let error):
+        //                    print("Error in post user: \(error)")
+        //                }
+        //            }
+        //        }
+    }
+    
+    private func deleteUser(id: Int, at indexPath: IndexPath) {
+        Task {
+            if try await networkManager.deleteUserWithId(id: id) {
+                print("User with id \(id) was deleted")
+                users.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            } else {
+                showAlert(with: .deletingError)
             }
         }
     }
@@ -99,23 +139,30 @@ extension UsersListTableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
         
         cell.configure(with: users[indexPath.row])
-//        let user = users[indexPath.row]
-//        
-//        var content = cell.defaultContentConfiguration()
-//        content.text = "\(user.firstName) \(user.lastName)"
-//        content.secondaryText = user.email
-//        content.image = UIImage(systemName: "face.smiling")
-//        
-//        cell.contentConfiguration = content
-//        
-//        networkManager.fetchAvatar(from: user.avatar) { imageData in
-//            content.image = UIImage(data: imageData)
-//            content.imageProperties.cornerRadius = tableView.rowHeight / 2
-//            
-//            cell.contentConfiguration = content
-//        }
-
+        //        let user = users[indexPath.row]
+        //
+        //        var content = cell.defaultContentConfiguration()
+        //        content.text = "\(user.firstName) \(user.lastName)"
+        //        content.secondaryText = user.email
+        //        content.image = UIImage(systemName: "face.smiling")
+        //
+        //        cell.contentConfiguration = content
+        //
+        //        networkManager.fetchAvatar(from: user.avatar) { imageData in
+        //            content.image = UIImage(data: imageData)
+        //            content.imageProperties.cornerRadius = tableView.rowHeight / 2
+        //
+        //            cell.contentConfiguration = content
+        //        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let user = users[indexPath.row]
+            deleteUser(id: user.id, at: indexPath)
+        }
     }
 }
 
@@ -126,7 +173,7 @@ extension UsersListTableViewController {
         
         let userViewController = UserViewController()
         userViewController.configure(with: user)
-            
+        
         navigationController?.pushViewController(userViewController, animated: true)
     }
 }
@@ -134,8 +181,6 @@ extension UsersListTableViewController {
 // MARK: - NewUserViewControllerDelegate
 extension UsersListTableViewController: NewUserViewControllerDelegate {
     func createUser(controller: NewUserViewController, user: UserModel) {
-        print(user)
-        users.append(user)
-        tableView.reloadData()
+        post(user: user)
     }
 }

@@ -75,9 +75,57 @@ final class NetworkManager {
                     completion(.success(postUserQuery))
                 }
             } else {
-                completion(.failure(.decodingError))
+                DispatchQueue.main.async {
+                    completion(.failure(.decodingError))
+                }
             }
         }.resume()
+    }
+    
+//    func postUser(_ user: UserModel) async throws -> Result<PostUserQuery, NetworkError> {
+//        var request = URLRequest(url: Link.singleUser.url)
+//        request.httpMethod = "POST"
+//        
+//        let userQuery = PostUserQuery(name: "\(user.firstName) \(user.lastName)", email: user.email)
+//        let jsonData = try? JSONEncoder().encode(userQuery)
+//        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+//        request.httpBody = jsonData
+//        
+//        let (data, _) = try await URLSession.shared.data(for: request)
+//        
+//        if let postUserQuery = try? JSONDecoder().decode(PostUserQuery.self, from: data) {
+//            return .success(postUserQuery)
+//        } else {
+//            return .failure(.decodingError)
+//        }
+//    }
+    
+    func deleteUser(_ id: Int, completion: @escaping (Bool) -> ()) {
+        let userUrl = Link.singleUser.url.appending(component: "\(id)")
+        var request = URLRequest(url: userUrl)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            if let response = response as? HTTPURLResponse {
+                DispatchQueue.main.async {
+                    completion(response.statusCode == 204)
+                }
+            }
+        }.resume()
+    }
+    
+    func deleteUserWithId(id: Int) async throws -> Bool {
+        let userUrl = Link.singleUser.url.appending(component: "\(id)")
+        var request = URLRequest(url: userUrl)
+        request.httpMethod = "DELETE"
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        if let response = response as? HTTPURLResponse {
+            return response.statusCode == 204
+        }
+        
+        return false
     }
 }
 

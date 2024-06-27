@@ -11,6 +11,7 @@ enum NetworkError: Error {
     case decodingError
     case noData
     case noUsers
+    case deletingError
     
     var title: String {
         switch self {
@@ -20,6 +21,8 @@ enum NetworkError: Error {
             return "Can't fetch data at all"
         case .noUsers:
             return "No users got from api"
+        case .deletingError:
+            return "Can't delete user"
         }
     }
 }

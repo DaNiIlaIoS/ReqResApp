@@ -83,7 +83,7 @@ final class NewUserViewController: UIViewController {
                              email: emailTextField.text ?? "",
                              firstName: firstNameTextField.text ?? "",
                              lastName: lastNameTextField.text ?? "")
-        post(user: user)
+        delegate?.createUser(controller: self, user: user)
         dismiss(animated: true)
     }
     
@@ -92,23 +92,7 @@ final class NewUserViewController: UIViewController {
     }
 }
 
-// MARK: - Networking
-extension NewUserViewController {
-    private func post(user: UserModel) {
-        networkManager.postUser(user) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let postUserQuery):
-                    print("\(postUserQuery) created")
-                    self?.delegate?.createUser(controller: self!, user: UserModel(postUserQuery: postUserQuery))
-                case .failure(let error):
-                    print("Error in post user: \(error)")
-                }
-            }
-        }
-    }
-}
-
+// MARK: - UITextFieldDelegate
 extension NewUserViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
