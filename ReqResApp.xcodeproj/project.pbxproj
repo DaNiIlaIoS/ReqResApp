@@ -20,6 +20,7 @@
 		48B8C7712C2C5DB600B2C24B /* NewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7702C2C5DB600B2C24B /* NewUserViewController.swift */; };
 		48B8C7732C2D349D00B2C24B /* PostUserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7722C2D349D00B2C24B /* PostUserQuery.swift */; };
 		48B8C77C2C2D5D3800B2C24B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48B8C77B2C2D5D3800B2C24B /* SnapKit */; };
+		48B8C77F2C2DA11000B2C24B /* Comments.strings in Resources */ = {isa = PBXBuildFile; fileRef = 48B8C77D2C2DA11000B2C24B /* Comments.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		48B8C7652C2B09A000B2C24B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		48B8C7702C2C5DB600B2C24B /* NewUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserViewController.swift; sourceTree = "<group>"; };
 		48B8C7722C2D349D00B2C24B /* PostUserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUserQuery.swift; sourceTree = "<group>"; };
+		48B8C77E2C2DA11000B2C24B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Comments.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				48B8C74E2C2A8ADA00B2C24B /* Assets.xcassets */,
 				48B8C7502C2A8ADA00B2C24B /* LaunchScreen.storyboard */,
 				48B8C7532C2A8ADA00B2C24B /* Info.plist */,
+				48B8C77D2C2DA11000B2C24B /* Comments.strings */,
 			);
 			path = ReqResApp;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B8C77F2C2DA11000B2C24B /* Comments.strings in Resources */,
 				48B8C74F2C2A8ADA00B2C24B /* Assets.xcassets in Resources */,
 				48B8C7522C2A8ADA00B2C24B /* Base in Resources */,
 			);
@@ -217,6 +221,14 @@
 				48B8C7512C2A8ADA00B2C24B /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		48B8C77D2C2DA11000B2C24B /* Comments.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				48B8C77E2C2DA11000B2C24B /* en */,
+			);
+			name = Comments.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

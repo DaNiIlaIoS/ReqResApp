@@ -101,19 +101,6 @@ extension UsersListTableViewController {
                 }
             }
         }
-        //        Task {
-        //            let result = try await networkManager.postUser(user)
-        //            DispatchQueue.main.async {
-        //                switch result {
-        //                case .success(let postUserQuery):
-        //                    print("\(postUserQuery) created")
-        //                    self.users.append(UserModel(postUserQuery: postUserQuery))
-        //                    self.tableView.reloadData()
-        //                case .failure(let error):
-        //                    print("Error in post user: \(error)")
-        //                }
-        //            }
-        //        }
     }
     
     private func deleteUser(id: Int, at indexPath: IndexPath) {
@@ -138,23 +125,7 @@ extension UsersListTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
         
-        cell.configure(with: users[indexPath.row])
-        //        let user = users[indexPath.row]
-        //
-        //        var content = cell.defaultContentConfiguration()
-        //        content.text = "\(user.firstName) \(user.lastName)"
-        //        content.secondaryText = user.email
-        //        content.image = UIImage(systemName: "face.smiling")
-        //
-        //        cell.contentConfiguration = content
-        //
-        //        networkManager.fetchAvatar(from: user.avatar) { imageData in
-        //            content.image = UIImage(data: imageData)
-        //            content.imageProperties.cornerRadius = tableView.rowHeight / 2
-        //
-        //            cell.contentConfiguration = content
-        //        }
-        
+        cell.configure(with: users[indexPath.row])        
         return cell
     }
     
