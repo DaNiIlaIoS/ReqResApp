@@ -10,24 +10,37 @@ import SnapKit
 
 final class NewUserViewController: UIViewController {
     // MARK: - GUI Variables
-    private lazy var fullNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Your full name"
-        textField.borderStyle = .roundedRect
-        return textField
+    private lazy var firstNameTextField: UITextField = {
+        let field = UITextField()
+        field.borderStyle = .roundedRect
+        field.placeholder = "Your first name"
+        field.delegate = self
+        field.autocorrectionType = .no
+        return field
+    }()
+    
+    private lazy var lastNameTextField: UITextField = {
+        let field = UITextField()
+        field.borderStyle = .roundedRect
+        field.placeholder = "Your last name"
+        field.delegate = self
+        field.autocorrectionType = .no
+        return field
     }()
     
     private lazy var emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Your email"
-        textField.borderStyle = .roundedRect
-        return textField
+        let field = UITextField()
+        field.borderStyle = .roundedRect
+        field.placeholder = "Your email"
+        field.delegate = self
+        field.autocorrectionType = .no
+        return field
     }()
     
     // MARK: - Properties
     private let edgeInsets = 32
     private let networkManager = NetworkManager.shared
-    private var delegate: NewUserViewControllerDelegate?
+    var delegate: NewUserViewControllerDelegate?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -42,20 +55,25 @@ final class NewUserViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonAction))
         
-        view.addSubview(fullNameTextField)
+        view.addSubview(firstNameTextField)
         view.addSubview(emailTextField)
-        
+        view.addSubview(lastNameTextField)
         setupConstraints()
     }
     
     private func setupConstraints() {
-        fullNameTextField.snp.makeConstraints { make in
+        firstNameTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(edgeInsets)
             make.leading.trailing.equalToSuperview().inset(edgeInsets)
         }
         
+        lastNameTextField.snp.makeConstraints { make in
+            make.top.equalTo(firstNameTextField.snp.bottom).offset(edgeInsets)
+            make.leading.trailing.equalToSuperview().inset(edgeInsets)
+        }
+        
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(fullNameTextField.snp.bottom).offset(edgeInsets)
+            make.top.equalTo(lastNameTextField.snp.bottom).offset(edgeInsets)
             make.leading.trailing.equalToSuperview().inset(edgeInsets)
         }
     }
@@ -63,8 +81,8 @@ final class NewUserViewController: UIViewController {
     @objc private func doneButtonAction() {
         let user = UserModel(id: 0,
                              email: emailTextField.text ?? "",
-                             firstName: fullNameTextField.text ?? "",
-                             lastName: "")
+                             firstName: firstNameTextField.text ?? "",
+                             lastName: lastNameTextField.text ?? "")
         post(user: user)
         dismiss(animated: true)
     }
@@ -78,13 +96,30 @@ final class NewUserViewController: UIViewController {
 extension NewUserViewController {
     private func post(user: UserModel) {
         networkManager.postUser(user) { [weak self] result in
-            switch result {
-            case .success(let postUserQuery):
-                print("\(postUserQuery) created")
-                self?.delegate?.createUser(user: UserModel(postUserQuery: postUserQuery))
-            case .failure(let error):
-                print("Error in post user: \(error)")
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let postUserQuery):
+                    print("\(postUserQuery) created")
+                    self?.delegate?.createUser(controller: self!, user: UserModel(postUserQuery: postUserQuery))
+                case .failure(let error):
+                    print("Error in post user: \(error)")
+                }
             }
         }
+    }
+}
+
+extension NewUserViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if firstNameTextField.isFirstResponder {
+            lastNameTextField.becomeFirstResponder()
+        } else if lastNameTextField.isFirstResponder {
+            emailTextField.becomeFirstResponder()
+        } else {
+            view.endEditing(true)
+        }
+        
+        return true
     }
 }

@@ -11,15 +11,15 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private init() {}
     
-//    func fetchAvatar(from url: URL, completion: @escaping (Data) -> ()) {
-//        DispatchQueue.global(qos: .background).async {
-//            guard let imageData = try? Data(contentsOf: url) else { return }
-//            
-//            DispatchQueue.main.async {
-//                completion(imageData)
-//            }
-//        }
-//    }
+    func fetchAvatar(from url: URL, completion: @escaping (Data) -> ()) {
+        DispatchQueue.global(qos: .background).async {
+            guard let imageData = try? Data(contentsOf: url) else { return }
+            
+            DispatchQueue.main.async {
+                completion(imageData)
+            }
+        }
+    }
     
     func fetchUsers(completion: @escaping (Result<[UserModel], NetworkError>) -> ()) {
         let session = URLSession.shared.dataTask(with: Link.allUsers.url) { data, response, error in
@@ -62,7 +62,7 @@ final class NetworkManager {
         var request = URLRequest(url: Link.singleUser.url)
         request.httpMethod = "POST"
         
-        let userQuery = PostUserQuery(name: "\(user.firstName)\(user.lastName)", email: user.email)
+        let userQuery = PostUserQuery(name: "\(user.firstName) \(user.lastName)", email: user.email)
         let jsonData = try? JSONEncoder().encode(userQuery)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
