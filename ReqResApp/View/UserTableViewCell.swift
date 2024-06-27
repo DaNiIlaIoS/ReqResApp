@@ -46,7 +46,12 @@ final class UserTableViewCell: UITableViewCell {
         nameLabel.text = "\(user.firstName) \(user.lastName)"
         emailLabel.text = user.email
         
-        avatarImage.kf.setImage(with: user.avatar)
+        if user.avatar != nil {
+            avatarImage.kf.setImage(with: user.avatar)
+        } else {
+            avatarImage.image = UIImage(systemName: "person.crop.circle")
+        }
+        
     }
     
     private func setupUI() {

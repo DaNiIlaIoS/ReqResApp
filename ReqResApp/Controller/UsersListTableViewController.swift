@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol NewUserViewControllerDelegate {
-    func createUser(user: UserModel)
+    func createUser(controller: NewUserViewController, user: UserModel)
 }
 
 class UsersListTableViewController: UITableViewController {
@@ -64,9 +64,9 @@ class UsersListTableViewController: UITableViewController {
     }
     
     @objc private func addButtonAction() {
-        let addViewController = NewUserViewController()
-        let navigationController = UINavigationController(rootViewController: addViewController)
-        
+        let newUserViewController = NewUserViewController()
+        newUserViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: newUserViewController)
         present(navigationController, animated: true, completion: nil)
     }
 }
@@ -133,7 +133,7 @@ extension UsersListTableViewController {
 
 // MARK: - NewUserViewControllerDelegate
 extension UsersListTableViewController: NewUserViewControllerDelegate {
-    func createUser(user: UserModel) {
+    func createUser(controller: NewUserViewController, user: UserModel) {
         print(user)
         users.append(user)
         tableView.reloadData()
