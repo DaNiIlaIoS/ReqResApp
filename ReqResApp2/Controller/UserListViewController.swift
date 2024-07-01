@@ -9,6 +9,14 @@ import UIKit
 
 class UserListViewController: UITableViewController {
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+       let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.hidesWhenStopped = true
+        indicator.startAnimating()
+        return indicator
+    }()
+    
     private let networkManager = NetworkManager.shared
     private var users = [User]()
     
@@ -25,6 +33,7 @@ class UserListViewController: UITableViewController {
     private func setupUI() {
         title = "Users"
         view.backgroundColor = .white
+        view.addSubview(activityIndicator)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction))
         
@@ -32,7 +41,9 @@ class UserListViewController: UITableViewController {
     }
     
     private func setupConstraints() {
-        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     @objc private func addButtonAction() {
@@ -68,10 +79,21 @@ extension UserListViewController {
 //    }
 }
 
+// MARK: - UITableViewDelegate
+extension UserListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
+        let userViewController = UserViewController()
+        userViewController.configure(with: user)
+        navigationController?.pushViewController(userViewController, animated: true)
+    }
+}
+
 // MARK: - Networking
 extension UserListViewController {
     private func fetchUsers() {
         networkManager.fetchUsers { [weak self] result in
+            self?.activityIndicator.stopAnimating()
             switch result {
             case .success(let users):
                 self?.users = users
