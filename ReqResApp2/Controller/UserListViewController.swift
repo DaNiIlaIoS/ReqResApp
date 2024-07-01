@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol NewUserViewControllerDelegate {
+    func createUser(controller: NewUserViewController, user: User)
+}
+
 class UserListViewController: UITableViewController {
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
@@ -18,7 +22,11 @@ class UserListViewController: UITableViewController {
     }()
     
     private let networkManager = NetworkManager.shared
-    private var users = [User]()
+    private var users = [User]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +55,10 @@ class UserListViewController: UITableViewController {
     }
     
     @objc private func addButtonAction() {
-        
+        let newUserViewController = NewUserViewController()
+        newUserViewController.delegate = self
+        let navigationController = UINavigationController(rootViewController: newUserViewController)
+        present(navigationController, animated: true)
     }
     
     private func showAlert(with error: NetworkError) {
@@ -97,11 +108,29 @@ extension UserListViewController {
             switch result {
             case .success(let users):
                 self?.users = users
-                self?.tableView.reloadData()
             case .failure(let error):
                 print("Error in fetch users: \(error)")
                 self?.showAlert(with: error)
             }
         }
+    }
+    
+    func post(user: User) {
+        networkManager.postUser(user) { [weak self] result in
+            switch result {
+            case .success(let postUserQuery):
+                print("User (\(postUserQuery.name) with email \(postUserQuery.email)) created")
+                self?.users.append(User(postUserQuery: postUserQuery))
+            case .failure(let error):
+                print("Error in post user: \(error)")
+            }
+        }
+    }
+}
+
+// MARK: -
+extension UserListViewController: NewUserViewControllerDelegate {
+    func createUser(controller: NewUserViewController, user: User) {
+        post(user: user)
     }
 }

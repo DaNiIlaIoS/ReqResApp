@@ -19,6 +19,8 @@
 		48B8C7B42C32BC4500B2C24B /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7B32C32BC4500B2C24B /* NetworkError.swift */; };
 		48B8C7B72C32BE8900B2C24B /* UsersQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7B62C32BE8900B2C24B /* UsersQuery.swift */; };
 		48B8C7B92C32C37900B2C24B /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7B82C32C37900B2C24B /* UserViewController.swift */; };
+		48B8C7BB2C32C5F000B2C24B /* NewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7BA2C32C5F000B2C24B /* NewUserViewController.swift */; };
+		48B8C7BD2C32C84F00B2C24B /* PostUserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7BC2C32C84F00B2C24B /* PostUserQuery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		48B8C7B32C32BC4500B2C24B /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		48B8C7B62C32BE8900B2C24B /* UsersQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersQuery.swift; sourceTree = "<group>"; };
 		48B8C7B82C32C37900B2C24B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		48B8C7BA2C32C5F000B2C24B /* NewUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserViewController.swift; sourceTree = "<group>"; };
+		48B8C7BC2C32C84F00B2C24B /* PostUserQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUserQuery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,7 @@
 			children = (
 				48B8C7932C32B71700B2C24B /* UserListViewController.swift */,
 				48B8C7B82C32C37900B2C24B /* UserViewController.swift */,
+				48B8C7BA2C32C5F000B2C24B /* NewUserViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 			children = (
 				48B8C7A32C32B89F00B2C24B /* User.swift */,
 				48B8C7B62C32BE8900B2C24B /* UsersQuery.swift */,
+				48B8C7BC2C32C84F00B2C24B /* PostUserQuery.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -206,8 +212,10 @@
 				48B8C7942C32B71700B2C24B /* UserListViewController.swift in Sources */,
 				48B8C7B72C32BE8900B2C24B /* UsersQuery.swift in Sources */,
 				48B8C7B12C32BC3100B2C24B /* NetworkManager.swift in Sources */,
+				48B8C7BD2C32C84F00B2C24B /* PostUserQuery.swift in Sources */,
 				48B8C7B42C32BC4500B2C24B /* NetworkError.swift in Sources */,
 				48B8C7902C32B71700B2C24B /* AppDelegate.swift in Sources */,
+				48B8C7BB2C32C5F000B2C24B /* NewUserViewController.swift in Sources */,
 				48B8C7A42C32B89F00B2C24B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

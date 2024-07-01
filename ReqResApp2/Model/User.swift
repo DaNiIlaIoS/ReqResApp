@@ -21,4 +21,12 @@ struct User: Codable {
         self.lastName = lastName
         self.avatar = avatar
     }
+    
+    init(postUserQuery: PostUserQuery) {
+        self.id = 0
+        self.email = postUserQuery.email
+        self.firstName = postUserQuery.name
+        self.lastName = ""
+        self.avatar = nil
+    }
 }
