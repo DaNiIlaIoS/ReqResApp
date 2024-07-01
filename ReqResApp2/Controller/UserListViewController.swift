@@ -16,18 +16,33 @@ class UserListViewController: UITableViewController {
         
         
         tableView.rowHeight = 80
+        
+        setupUI()
     }
     
     private func setupUI() {
+        title = "Users"
         view.backgroundColor = .white
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonAction))
+        
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        
+    }
+    
+    @objc private func addButtonAction() {
+        
     }
 }
 
 // MARK: - UITableViewDataSource
-//extension UserListViewController {
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return users.count
-//    }
+extension UserListViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return users.count
+    }
 //    
 //    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
@@ -42,4 +57,4 @@ class UserListViewController: UITableViewController {
 //            deleteUser(id: user.id, at: indexPath)
 //        }
 //    }
-//}
+}

@@ -12,6 +12,11 @@
 		48B8C7992C32B71800B2C24B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48B8C7982C32B71800B2C24B /* Assets.xcassets */; };
 		48B8C79C2C32B71800B2C24B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 48B8C79B2C32B71800B2C24B /* Base */; };
 		48B8C7A42C32B89F00B2C24B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7A32C32B89F00B2C24B /* User.swift */; };
+		48B8C7A82C32BB0D00B2C24B /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7A72C32BB0D00B2C24B /* UserTableViewCell.swift */; };
+		48B8C7AC2C32BB7000B2C24B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 48B8C7AB2C32BB7000B2C24B /* Kingfisher */; };
+		48B8C7AF2C32BB7D00B2C24B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 48B8C7AE2C32BB7D00B2C24B /* SnapKit */; };
+		48B8C7B12C32BC3100B2C24B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7B02C32BC3100B2C24B /* NetworkManager.swift */; };
+		48B8C7B42C32BC4500B2C24B /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8C7B32C32BC4500B2C24B /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,9 @@
 		48B8C79B2C32B71800B2C24B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		48B8C79D2C32B71800B2C24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48B8C7A32C32B89F00B2C24B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		48B8C7A72C32BB0D00B2C24B /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		48B8C7B02C32BC3100B2C24B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		48B8C7B32C32BC4500B2C24B /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +37,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B8C7AC2C32BB7000B2C24B /* Kingfisher in Frameworks */,
+				48B8C7AF2C32BB7D00B2C24B /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +66,10 @@
 			children = (
 				48B8C78F2C32B71700B2C24B /* AppDelegate.swift */,
 				48B8C7A62C32B99C00B2C24B /* Model */,
+				48B8C7A92C32BB1700B2C24B /* View */,
 				48B8C7A52C32B99200B2C24B /* Controller */,
-				48B8C7982C32B71800B2C24B /* Assets.xcassets */,
-				48B8C79A2C32B71800B2C24B /* LaunchScreen.storyboard */,
+				48B8C7B22C32BC3500B2C24B /* Networking */,
+				48B8C7B52C32BC5900B2C24B /* Resourse */,
 				48B8C79D2C32B71800B2C24B /* Info.plist */,
 			);
 			path = ReqResApp2;
@@ -80,6 +91,32 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		48B8C7A92C32BB1700B2C24B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48B8C79A2C32B71800B2C24B /* LaunchScreen.storyboard */,
+				48B8C7A72C32BB0D00B2C24B /* UserTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		48B8C7B22C32BC3500B2C24B /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				48B8C7B02C32BC3100B2C24B /* NetworkManager.swift */,
+				48B8C7B32C32BC4500B2C24B /* NetworkError.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		48B8C7B52C32BC5900B2C24B /* Resourse */ = {
+			isa = PBXGroup;
+			children = (
+				48B8C7982C32B71800B2C24B /* Assets.xcassets */,
+			);
+			path = Resourse;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -96,6 +133,10 @@
 			dependencies = (
 			);
 			name = ReqResApp2;
+			packageProductDependencies = (
+				48B8C7AB2C32BB7000B2C24B /* Kingfisher */,
+				48B8C7AE2C32BB7D00B2C24B /* SnapKit */,
+			);
 			productName = ReqResApp2;
 			productReference = 48B8C78C2C32B71700B2C24B /* ReqResApp2.app */;
 			productType = "com.apple.product-type.application";
@@ -124,6 +165,10 @@
 				Base,
 			);
 			mainGroup = 48B8C7832C32B71700B2C24B;
+			packageReferences = (
+				48B8C7AA2C32BB7000B2C24B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				48B8C7AD2C32BB7D00B2C24B /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 48B8C78D2C32B71700B2C24B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -150,7 +195,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B8C7A82C32BB0D00B2C24B /* UserTableViewCell.swift in Sources */,
 				48B8C7942C32B71700B2C24B /* UserListViewController.swift in Sources */,
+				48B8C7B12C32BC3100B2C24B /* NetworkManager.swift in Sources */,
+				48B8C7B42C32BC4500B2C24B /* NetworkError.swift in Sources */,
 				48B8C7902C32B71700B2C24B /* AppDelegate.swift in Sources */,
 				48B8C7A42C32B89F00B2C24B /* User.swift in Sources */,
 			);
@@ -375,6 +423,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48B8C7AA2C32BB7000B2C24B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
+		48B8C7AD2C32BB7D00B2C24B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48B8C7AB2C32BB7000B2C24B /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48B8C7AA2C32BB7000B2C24B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		48B8C7AE2C32BB7D00B2C24B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48B8C7AD2C32BB7D00B2C24B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48B8C7842C32B71700B2C24B /* Project object */;
 }
