@@ -22,11 +22,7 @@ class UserListViewController: UITableViewController {
     }()
     
     private let networkManager = NetworkManager.shared
-    private var users = [User]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var users = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,13 +77,13 @@ extension UserListViewController {
         cell.configure(with: users[indexPath.row])
         return cell
     }
-//    
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            let user = users[indexPath.row]
-//            deleteUser(id: user.id, at: indexPath)
-//        }
-//    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let user = users[indexPath.row]
+            deleteUser(id: user.id, at: indexPath)
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -108,6 +104,7 @@ extension UserListViewController {
             switch result {
             case .success(let users):
                 self?.users = users
+                self?.tableView.reloadData()
             case .failure(let error):
                 print("Error in fetch users: \(error)")
                 self?.showAlert(with: error)
@@ -121,8 +118,21 @@ extension UserListViewController {
             case .success(let postUserQuery):
                 print("User (\(postUserQuery.name) with email \(postUserQuery.email)) created")
                 self?.users.append(User(postUserQuery: postUserQuery))
+                self?.tableView.reloadData()
             case .failure(let error):
                 print("Error in post user: \(error)")
+            }
+        }
+    }
+    
+    func deleteUser(id: Int, at indexPath: IndexPath) {
+        Task {
+            if try await networkManager.deleteUserWithId(id: id) {
+                print("User with id: \(id) was deleted")
+                users.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            } else {
+                showAlert(with: .deletingError)
             }
         }
     }
