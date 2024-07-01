@@ -8,16 +8,18 @@
 import UIKit
 
 class UserListViewController: UITableViewController {
-
+    
+    private let networkManager = NetworkManager.shared
     private var users = [User]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         tableView.rowHeight = 80
+        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserTableViewCell")
         
         setupUI()
+        fetchUsers()
     }
     
     private func setupUI() {
@@ -36,6 +38,13 @@ class UserListViewController: UITableViewController {
     @objc private func addButtonAction() {
         
     }
+    
+    private func showAlert(with error: NetworkError) {
+        let alert = UIAlertController(title: error.title, message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -43,13 +52,13 @@ extension UserListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
-//    
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
-//        
-//        cell.configure(with: users[indexPath.row])
-//        return cell
-//    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as? UserTableViewCell else { return UITableViewCell() }
+        
+        cell.configure(with: users[indexPath.row])
+        return cell
+    }
 //    
 //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 //        if editingStyle == .delete {
@@ -57,4 +66,20 @@ extension UserListViewController {
 //            deleteUser(id: user.id, at: indexPath)
 //        }
 //    }
+}
+
+// MARK: - Networking
+extension UserListViewController {
+    private func fetchUsers() {
+        networkManager.fetchUsers { [weak self] result in
+            switch result {
+            case .success(let users):
+                self?.users = users
+                self?.tableView.reloadData()
+            case .failure(let error):
+                print("Error in fetch users: \(error)")
+                self?.showAlert(with: error)
+            }
+        }
+    }
 }
