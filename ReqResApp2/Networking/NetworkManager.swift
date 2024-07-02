@@ -112,7 +112,7 @@ final class NetworkManager {
                 switch dataResponse.result {
                 case .success:
                     completion(true)
-                case .failure(_):
+                case .failure:
                     completion(false)
                 }
             }
