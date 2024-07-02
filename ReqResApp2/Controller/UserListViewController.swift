@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol NewUserViewControllerDelegate {
     func createUser(controller: NewUserViewController, user: User)
@@ -57,8 +58,8 @@ class UserListViewController: UITableViewController {
         present(navigationController, animated: true)
     }
     
-    private func showAlert(with error: NetworkError) {
-        let alert = UIAlertController(title: error.title, message: nil, preferredStyle: .alert)
+    private func showAlert(with error: AFError) {
+        let alert = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
@@ -126,15 +127,25 @@ extension UserListViewController {
     }
     
     func deleteUser(id: Int, at indexPath: IndexPath) {
-        Task {
-            if try await networkManager.deleteUserWithId(id: id) {
+        networkManager.deleteUser(id: id) { [weak self] successfully in
+            if successfully {
                 print("User with id: \(id) was deleted")
-                users.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+                self?.users.remove(at: indexPath.row)
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                
             } else {
-                showAlert(with: .deletingError)
+                self?.showAlert(with: .explicitlyCancelled)
             }
         }
+//        Task {
+//            if try await networkManager.deleteUserWithId(id: id) {
+//                print("User with id: \(id) was deleted")
+//                users.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .automatic)
+//            } else {
+//                showAlert(with: .explicitlyCancelled)
+//            }
+//        }
     }
 }
 
