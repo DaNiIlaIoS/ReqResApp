@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 
 protocol NewUserViewControllerDelegate {
-    func createUser(controller: NewUserViewController, user: User)
+    func createUser(user: User)
 }
 
 class UserListViewController: UITableViewController {
@@ -151,7 +151,7 @@ extension UserListViewController {
 
 // MARK: -
 extension UserListViewController: NewUserViewControllerDelegate {
-    func createUser(controller: NewUserViewController, user: User) {
+    func createUser(user: User) {
         post(user: user)
     }
 }

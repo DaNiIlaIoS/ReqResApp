@@ -83,7 +83,7 @@ final class NewUserViewController: UIViewController {
                              email: emailTextField.text ?? "",
                              firstName: firstNameTextField.text ?? "",
                              lastName: lastNameTextField.text ?? "")
-        delegate?.createUser(controller: self, user: user)
+        delegate?.createUser(user: user)
         dismiss(animated: true)
     }
     
